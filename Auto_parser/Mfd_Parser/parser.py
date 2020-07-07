@@ -51,7 +51,7 @@ class AutoParser:
         # ищет уже спаршенные данные в директории
         try:
             with open('text/{}_param.txt'.format(self.company_name), 'r') as f:
-                page_num = json.loads(f.readline())['param']
+                page_num = json.loads(f.readline())['param'] + 1
         except:
             page_num = 0
 
@@ -91,13 +91,13 @@ class AutoParser:
                     pd.DataFrame(all_data).T.to_csv('{}_{}.csv'.format(self.company_name, page_numer), sep='|')
                     DfMerger(self.company_name).fit_transform()
                     dictionary = {'param': page_numer}
-                    with open('{}_param.txt'.format(self.company_name), 'w') as f:
+                    with open('text/{}_param.txt'.format(self.company_name), 'w') as f:
                         json.dump(dictionary, f)
 
             except:
                 dictionary = {'param': page_numer}
                 print('\nПарсинг приостановлен, номер итерации: {}'.format(page_numer))
-                with open('{}_param.txt'.format(self.company_name), 'w') as f:
+                with open('text/{}_param.txt'.format(self.company_name), 'w') as f:
                     json.dump(dictionary, f)
                 print('Параметры сохранены, можете зыкрывать приложение!')
                 time.sleep(10)
@@ -234,16 +234,16 @@ dictionary = {
 
 sys.setrecursionlimit(999999999)
 #parser = Parser(dictionary).run()
-"""
+#CHANGED """
 #Определяем последнюю страницу на сейчас, чтобы знать откуда парсить
-
+"""
 import json
 for index, company in enumerate(dictionary):
     if index in [0,21,42]:
         continue
     page_numer = AutoParser(dictionary, company).last_page
     dict = {'param': page_numer}
-    with open('{}_param.txt'.format(company), 'w') as f:
+    with open('text/{}_param.txt'.format(company), 'w') as f:
         json.dump(dict, f)     
 
 
@@ -274,7 +274,7 @@ if __name__ == '__main__':
                     continue
                 page_numer = AutoParser(dictionary, company).last_page
                 dict = {'param': page_numer}
-                with open('{}_param.txt'.format(company), 'w') as f:
+                with open('text/{}_param.txt'.format(company), 'w') as f:
                     json.dump(dict, f)
 
             already_parsed = True
