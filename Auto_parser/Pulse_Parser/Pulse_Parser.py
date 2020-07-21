@@ -321,7 +321,7 @@ for index, ticker in enumerate(tickers[0:10]):
     if index==2:
         break
     try:
-        ticker_parsing(ticker, str(folder_name) + '/', 'C:/Users/79126/Downloads/chromedriver_win32/chromedriver.exe')
+        ticker_parsing(ticker, str(folder_name) + '/', '/usr/local/bin/chromedriver.exe')
     except:
         not_parsed.append(ticker)
         print(f'Не получилось спарсить: {ticker}')
