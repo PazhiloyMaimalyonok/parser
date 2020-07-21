@@ -255,5 +255,5 @@ os.mkdir(folder_name)
 for index, ticker in enumerate(tickers[0:10]):
     if index==2:
         break
-    ticker_parsing(ticker, str(folder_name) + '/', '/usr/local/bin/chromedriver.exe')
+    ticker_parsing(ticker, str(folder_name) + '/', 'usr/local/bin/chromedriver')
     print(f'Успех: {ticker}')
