@@ -42,6 +42,9 @@ def post_dt_parse(post_dt, cur_dt, time_for_old_posts='00:00'):
     one_month_array = ['месяц назад']
     month_array = ['месяцев назад', 'месяца назад']
     # парсим минуты назад (пример '9 минут назад')
+    if post_dt.split() == ['минуту', 'назад']:
+        return ([(cur_dt.date()).strftime("%Y-%m-%d"), time_for_old_posts])
+
     if any(s in post_dt for s in today_min_array):
         delta = int(post_dt.split()[0])
         return ((cur_dt - timedelta(minutes=delta)).strftime("%Y-%m-%d %H:%M").split())
@@ -218,7 +221,7 @@ def ticker_parsing(ticker, output_dir='', webdriver_path=''):
                         df.to_csv(output_dir + ticker + '.csv', index=False, header=True)
                         return 'Успех'
                 except:
-                    print(date)
+                    pass
         # """
         old_page_height = new_page_height
         # print(browser.execute_script("return document.body.scrollHeight"), end = '\r')
@@ -254,11 +257,18 @@ not_parsed = []
 now = datetime.now()
 folder_name = str(now.date())
 os.mkdir(folder_name)
-for index, ticker in enumerate(tickers[0:10]):
-    if index==2:
-        break
+for ticker in tickers:
     try:
         ticker_parsing(ticker, str(folder_name) + '/',  "/usr/lib/chromium-browser/chromedriver")
     except:
-        not_parsed.append(ticker)
-        print(f'Не получилось спарсить: {ticker}')
+        try:
+            print(f'Не получилось спарсить: {ticker}')
+            ticker_parsing(ticker, str(folder_name) + '/', "/usr/lib/chromium-browser/chromedriver")
+            print(f'В итоге спарсили: {ticker}')
+        except:
+            print(f'Не получилось спарсить: {ticker}')
+            not_parsed.append(ticker)
+
+with open(str(folder_name) + '/' + 'not_parsed_companies', "w") as file:
+    for company in not_parsed:
+        file.write(company + '\n')
