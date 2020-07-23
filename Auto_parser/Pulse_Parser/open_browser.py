@@ -6,7 +6,7 @@ try:
     chrome_options.add_argument('--headless')
     driver = webdriver.Chrome(chrome_options=chrome_options)
     driver.get('https://www.google.com/')
-    print driver.current_url
+    print(driver.current_url)
     driver.quit()
     print('Success')
 except:
