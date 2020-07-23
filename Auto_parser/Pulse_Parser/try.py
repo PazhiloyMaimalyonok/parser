@@ -10,7 +10,7 @@ from selenium.common.exceptions import NoSuchElementException
 from datetime import datetime, date, timedelta
 from dateutil.relativedelta import relativedelta
 import csv
-
+from selenium.webdriver.chrome.options import Options
 
 
 def post_dt_parse(post_dt, cur_dt, time_for_old_posts='00:00'):
@@ -160,7 +160,11 @@ def ticker_parsing(ticker, output_dir='', webdriver_path=''):
     if webdriver_path == '':
         browser = webdriver.Chrome()
     else:
-        browser = webdriver.Chrome(webdriver_path)
+        #browser = webdriver.Chrome(webdriver_path)
+        chrome_options = Options()
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--headless')
+        browser = webdriver.Chrome(webdriver_path, chrome_options=chrome_options)
 
     browser.get(url)
     # блок для скролла
