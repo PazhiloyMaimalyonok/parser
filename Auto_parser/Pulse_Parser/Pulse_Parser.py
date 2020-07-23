@@ -10,73 +10,7 @@ from selenium.common.exceptions import NoSuchElementException
 from datetime import datetime, date, timedelta
 from dateutil.relativedelta import relativedelta
 import csv
-
-dictionary = {
-            '#----------# ДВАДЦАТЬ НАИБОЛЬШИХ #----------#': '#----------#',
-            'alrosa': r'http://forum.mfd.ru/forum/thread/?id=4313',
-            'aeroflot': r'http://forum.mfd.ru/forum/thread/?id=61912',
-            'fees': r'http://forum.mfd.ru/forum/thread/?id=61148',
-            'gazprom': r'http://forum.mfd.ru/forum/thread/?id=61478',
-            'gtl': r'http://forum.mfd.ru/forum/thread/?id=66603',
-            'lukoil': r'http://forum.mfd.ru/forum/thread/?id=62203',
-            'mmk': r'http://forum.mfd.ru/forum/thread/?id=63263',
-            'mts': r'http://forum.mfd.ru/forum/thread/?id=63940',
-            'moex': r'http://forum.mfd.ru/forum/thread/?id=66517',
-            'magnit': r'http://forum.mfd.ru/forum/thread/?id=61993',
-            'novatek': r'http://forum.mfd.ru/forum/thread/?id=62709',
-            'nlmk': r'http://forum.mfd.ru/forum/thread/?id=64032',
-            'nornikel': r'http://forum.mfd.ru/forum/thread/?id=26106',
-            'polyus': r'http://forum.mfd.ru/forum/thread/?id=60251',
-            'rosneft': r'http://forum.mfd.ru/forum/thread/?id=61941',
-            'surgutneftegas': r'http://forum.mfd.ru/forum/thread/?id=30060',
-            'sberbank': r'http://forum.mfd.ru/forum/thread/?id=62075',
-            'severstal': r'http://forum.mfd.ru/forum/thread/?id=62342',
-            'vtb': r'http://forum.mfd.ru/forum/thread/?id=45229',
-            'yandex': r'http://forum.mfd.ru/forum/thread/?id=68203',
-            '#----------# ДВАДЦАТЬ СРЕДНИХ #----------#': '#----------#',
-            'afk sistema': r'http://forum.mfd.ru/forum/thread/?id=62206',
-            'akron': r'http://forum.mfd.ru/forum/thread/?id=62599',
-            'fosagro': r'http://forum.mfd.ru/forum/thread/?id=64267',
-            'gazpromneft': r'http://forum.mfd.ru/forum/thread/?id=62100',
-            'lenta': r'http://forum.mfd.ru/forum/thread/?id=68291',
-            'lsr': r'http://forum.mfd.ru/forum/thread/?id=62144',
-            'mechel': r'http://forum.mfd.ru/forum/thread/?id=61771',
-            'mosenergo': r'http://forum.mfd.ru/forum/thread/?id=61698',
-            'NMTP': r'http://forum.mfd.ru/forum/thread/?id=62058',
-            'PIK': r'http://forum.mfd.ru/forum/thread/?id=61161',
-            'raspadskaya': r'http://forum.mfd.ru/forum/thread/?id=62771',
-            'rostelekom': r'http://forum.mfd.ru/forum/thread/?id=82263',
-            'rosseti': r'http://forum.mfd.ru/forum/thread/?id=62235',
-            'rusgidro': r'http://forum.mfd.ru/forum/thread/?id=60669',
-            'rusal': r'http://forum.mfd.ru/forum/thread/?id=63559',
-            'TMK': r'http://forum.mfd.ru/forum/thread/?id=63060',
-            'TGK-1': r'http://forum.mfd.ru/forum/thread/?id=61217',
-            'transneft': r'http://forum.mfd.ru/forum/thread/?id=61526',
-            'uralkaliy': r'http://forum.mfd.ru/forum/thread/?id=60730',
-            'unipro': r'http://forum.mfd.ru/forum/thread/?id=63830',
-            '#----------# ДВАДЦАТЬ МАЛЫХ #----------#': '#----------#',
-            'ashinskiy_metzavod': r'http://forum.mfd.ru/forum/thread/?id=61592',
-            'apteki_36_6': r'http://forum.mfd.ru/forum/thread/?id=61569',
-            'arsagera': r'http://forum.mfd.ru/forum/thread/?id=60997',
-            'cherkizovo': r'http://forum.mfd.ru/forum/thread/?id=61943',
-            'CHZPSN': r'http://forum.mfd.ru/forum/thread/?id=66106',
-            'dagsbyt': r'http://forum.mfd.ru/forum/thread/?id=62621',
-            'GAZ': r'http://forum.mfd.ru/forum/thread/?id=64839',
-            'GTL': r'http://forum.mfd.ru/forum/thread/?id=66603',
-            'irkut': r'http://forum.mfd.ru/forum/thread/?id=61926',
-            'KTK': r'http://forum.mfd.ru/forum/thread/?id=62767',
-            'lenergo': r'http://forum.mfd.ru/forum/thread/?id=63912',
-            'NKNH': r'http://forum.mfd.ru/forum/thread/?id=62842',
-            'rusolovo': r'http://forum.mfd.ru/forum/thread/?id=67295',
-            'rollman': r'http://forum.mfd.ru/forum/thread/?id=66335',
-            'sib_gostinets': r'http://forum.mfd.ru/forum/thread/?id=70539',
-            'sollers': r'http://forum.mfd.ru/forum/thread/?id=61394',
-            'saratovskiy_npz': r'http://forum.mfd.ru/forum/thread/?id=64855',
-            'seligdar': r'http://forum.mfd.ru/forum/thread/?id=64669',
-            'tantal': r'http://forum.mfd.ru/forum/thread/?id=65404',
-            'YATEK': r'http://forum.mfd.ru/forum/thread/?id=65074'
-        }
-
+from selenium.webdriver.chrome.options import Options
 
 def post_dt_parse(post_dt, cur_dt, time_for_old_posts='00:00'):
     '''
@@ -225,7 +159,10 @@ def ticker_parsing(ticker, output_dir='', webdriver_path=''):
     if webdriver_path == '':
         browser = webdriver.Chrome()
     else:
-        browser = webdriver.Chrome(webdriver_path)
+        chrome_options = Options()
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--headless')
+        browser = webdriver.Chrome(webdriver_path, chrome_options=chrome_options)
 
     browser.get(url)
     # блок для скролла
@@ -321,7 +258,7 @@ for index, ticker in enumerate(tickers[0:10]):
     if index==2:
         break
     try:
-        ticker_parsing(ticker, str(folder_name) + '/', '/usr/local/bin/chromedriver.exe')
+        ticker_parsing(ticker, str(folder_name) + '/',  "/usr/lib/chromium-browser/chromedriver")
     except:
         not_parsed.append(ticker)
         print(f'Не получилось спарсить: {ticker}')
