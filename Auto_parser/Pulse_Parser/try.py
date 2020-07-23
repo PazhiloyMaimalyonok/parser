@@ -249,11 +249,12 @@ def ticker_parsing(ticker, output_dir='', webdriver_path=''):
 with open('tickers.txt', 'r') as f:
     tickers = f.read().splitlines()
 not_parsed = []
-now = datetime.now()
-folder_name = str(now.date())
-os.mkdir(folder_name)
+#now = datetime.now()
+#folder_name = str(now.date())
+#os.mkdir(folder_name)
 for index, ticker in enumerate(tickers[0:10]):
     if index==2:
         break
-    ticker_parsing(ticker, str(folder_name) + '/', '/usr/local/bin/chromedriver.exe')
+    #ticker_parsing(ticker, str(folder_name) + '/', '/usr/local/bin/chromedriver.exe')
+    ticker_parsing(ticker, webdriver_path = "/usr/lib/chromium-browser/chromedriver")
     print(f'Успех: {ticker}')
