@@ -79,7 +79,7 @@ def post_dt_parse(post_dt, cur_dt, time_for_old_posts='00:00'):
         return ([(cur_dt + relativedelta(months=-delta)).strftime("%Y-%m"), time_for_old_posts])
 
     else:
-        return (['ERROR', post_dt])
+        return ([(cur_dt.date()).strftime("%Y-%m-%d"), time_for_old_posts])
 
 
 def post_parsing(post, cur_dt):
@@ -212,16 +212,23 @@ def ticker_parsing(ticker, output_dir='', webdriver_path=''):
             for date in np.unique(df.date.values):
                 try:
                     date = datetime.strptime(date, "%Y-%m-%d").date()
-                    if date != cur_dt.date():
-                        browser.quit()
-                        if len(posts_texts) == 0:
-                            return 'ticker : ' + ticker + '; No posts parsing!!!'
-                        df['date'] = [datetime.strptime(x, "%Y-%m-%d").date() for x in df.date.values]
-                        df = df[df.date == cur_dt.date()]
-                        df.to_csv(output_dir + ticker + '.csv', index=False, header=True, sep = '|')
-                        return 'Успех'
                 except:
-                    pass
+                    date = datetime.strptime(date, "%Y-%m").date()
+                if date != cur_dt.date():
+                    date_arr = []
+                    browser.quit()
+                    if len(posts_texts) == 0:
+                        return 'ticker : ' + ticker + '; No posts parsing!!!'
+                    #df['date'] = [datetime.strptime(x, "%Y-%m-%d").date() for x in df.date.values]
+                    for x in df.date.values:  # CHANGED
+                        try:
+                            date_arr.append(datetime.strptime(x, "%Y-%m-%d").date())
+                        except:
+                            date_arr.append(datetime.strptime(x, "%Y-%m").date())
+                    df['date'] = date_arr
+                    df = df[df.date == cur_dt.date()]
+                    df.to_csv(output_dir + ticker + '.csv', index=False, header=True, sep= '|')
+                    return 'Успех'
         # """
         old_page_height = new_page_height
         # print(browser.execute_script("return document.body.scrollHeight"), end = '\r')
