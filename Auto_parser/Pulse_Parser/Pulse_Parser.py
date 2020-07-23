@@ -269,6 +269,9 @@ for ticker in tickers:
             print(f'Не получилось спарсить: {ticker}')
             not_parsed.append(ticker)
 
+with open('not_parsed.txt', 'r') as f:
+    np = f.read().splitlines()
+not_parsed.extend(np)
 with open(str(folder_name) + '/' + 'not_parsed_companies', "w") as file:
     for company in not_parsed:
         file.write(company + '\n')
