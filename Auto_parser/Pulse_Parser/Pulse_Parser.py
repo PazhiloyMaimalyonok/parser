@@ -218,7 +218,7 @@ def ticker_parsing(ticker, output_dir='', webdriver_path=''):
                             return 'ticker : ' + ticker + '; No posts parsing!!!'
                         df['date'] = [datetime.strptime(x, "%Y-%m-%d").date() for x in df.date.values]
                         df = df[df.date == cur_dt.date()]
-                        df.to_csv(output_dir + ticker + '.csv', index=False, header=True)
+                        df.to_csv(output_dir + ticker + '.csv', index=False, header=True, sep = '|')
                         return 'Успех'
                 except:
                     pass
