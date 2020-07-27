@@ -9,7 +9,7 @@ def soobschenye():
        for x in data['historical_performance']:
               if x['date_of_operation'] == None:
                      continue
-              if str(x['date_of_operation'])[:8] == datetime().now().date().strftime("%d.%m.%Y")[:8]:
+              if str(x['date_of_operation'])[:8] == datetime.now().date().strftime("%d.%m.%Y")[:8]:
                      #print(x)
                      info = x
                      counter +=1
