@@ -8,6 +8,8 @@ from aiogram.types import ReplyKeyboardRemove, \
     ReplyKeyboardMarkup, KeyboardButton, \
     InlineKeyboardMarkup, InlineKeyboardButton
 from datetime import datetime
+import emoji
+SMILES = ['✅', '❎']
 
 bot = Bot(token='1386333187:AAEdLI9emOBGG-bwC3wgoauiLsiPWC2hIGg')
 dp = Dispatcher(bot)

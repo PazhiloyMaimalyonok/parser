@@ -1,5 +1,7 @@
 import pickle
 from datetime import datetime, timedelta
+import emoji
+SMILES = ['✅', '❎']
 
 def soobschenye():
        with open("/home/danyanyam/flask/Библиотека/data/pickles/portfel.pickle", "rb") as fobj:
@@ -31,7 +33,7 @@ def soobschenye():
               for el in buy:
                      zatychka += el + ', '
               zatychka = str(zatychka)[:-2]
-              result.append(str(f'Покупки на {date}: ') + zatychka + '\n')
+              result.append(str(f'{SMILES[0]}Покупки на {date}: ') + zatychka + '\n')
        else:
               #print(f'На дату {date} покупок акций не запланировано')
               result.append(str(f'На дату {date} покупок акций не запланировано') + '\n')
@@ -41,7 +43,7 @@ def soobschenye():
               for el in sell:
                      zatychka += el + ', '
               zatychka = str(zatychka)[:-2]
-              result.append('Продажи' + zatychka + '\n')
+              result.append('{SMILES[1}Продажи' + zatychka + '\n')
        else:
               #print('Ничего не продаем')
               result.append('Ничего не продаем' + '\n')
