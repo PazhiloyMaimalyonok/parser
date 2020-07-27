@@ -1,2 +1,2 @@
 from datetime import datetime, timedelta
-print((datetime.now().date() - timedelta(days=2)).strftime("%d.%m.%Y")[:8])
+print(datetime.now().time() > datetime.time(hours = 20, minutes = 30))
