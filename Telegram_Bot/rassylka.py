@@ -21,7 +21,7 @@ def soobschenye():
                      counter +=1
        if counter == 0:
               return [f'Файла с данными за сегодня {datetime.now().date()} нет']
-       date = info['date_of_operation'][:8]
+       date = datetime.now().date()
        buy = list(info['orders']['buy'].keys())
        sell = list(info['orders']['sell'].keys())
        a, pr, yelda, amount, vol, mean_yelda, hold, perf = data.values()
