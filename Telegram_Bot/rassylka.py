@@ -1,15 +1,21 @@
 import pickle
-from datetime import datetime
+from datetime import datetime, timedelta
 
 def soobschenye():
        with open("/home/danyanyam/flask/Библиотека/data/pickles/portfel.pickle", "rb") as fobj:
               data =  pickle.load(fobj)
        result = []
        counter = 0
+       if datetime.now().isoweekday() in [6, 7]:
+              return False
+       if datetime.now().isoweekday() == 1:
+              required_date = (datetime.now().date() - timedelta(days = 2)).strftime("%d.%m.%Y")[:8]
+       else:
+              required_date = datetime.now().date().strftime("%d.%m.%Y")[:8]
        for x in data['historical_performance']:
               if x['date_of_operation'] == None:
                      continue
-              if str(x['date_of_operation'])[:8] == datetime.now().date().strftime("%d.%m.%Y")[:8]:
+              if str(x['date_of_operation'])[:8] == required_date:
                      #print(x)
                      info = x
                      counter +=1
