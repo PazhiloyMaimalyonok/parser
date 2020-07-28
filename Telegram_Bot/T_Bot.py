@@ -77,7 +77,7 @@ async def scheduled(wait_for):
         if done == True:
             continue
         a = rassylka.soobschenye()
-        elif a == False:
+        if a == False:
             continue
         b = ''
         for el in a:
