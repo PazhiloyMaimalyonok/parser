@@ -22,7 +22,8 @@ def soobschenye():
                      info = x
                      counter +=1
        if counter == 0:
-              return [f'Файла с данными за сегодня {datetime.now().date()} нет']
+              #return [f'Файла с данными за сегодня {datetime.now().date()} нет']
+              return False
        date = datetime.now().date()
        buy = list(info['orders']['buy'].keys())
        sell = list(info['orders']['sell'].keys())

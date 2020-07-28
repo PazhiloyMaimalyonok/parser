@@ -59,6 +59,8 @@ async def scheduled(wait_for):
     while True:
         await asyncio.sleep(wait_for)
         a = rassylka.soobschenye()
+        if a==False:
+            continue
         b = ''
         for el in a:
             b += el
@@ -71,11 +73,14 @@ async def scheduled(wait_for):
 
             #await bot.send_message(user, b)
         users = users.difference(left_users)
-        #with open('users.txt', 'w') as f:
-            #for user in users:
-                #f.write(str(user) + '\n')
+
+        with open('users.txt', 'w') as f:
+            for user in users:
+                f.write(str(user) + '\n')
+        if a != False:
+            await asyncio.sleep(60*60*24)
 
 
 if __name__ == '__main__':
-	dp.loop.create_task(scheduled(60*60*24)) # пока что оставим 10 секунд (в качестве теста)
+	dp.loop.create_task(scheduled(60*30)) # пока что оставим 10 секунд (в качестве теста)
 	executor.start_polling(dp, skip_updates=True)
