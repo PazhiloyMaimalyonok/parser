@@ -1,4 +1,5 @@
-a = 5
-def exc():
-    print(a)
-exc()
+from pprint import pprint
+
+with open("/home/danyanyam/flask/Библиотека/data/pickles/portfel.pickle", "rb") as fobj:
+    data = pickle.load(fobj)
+pprint(data)
