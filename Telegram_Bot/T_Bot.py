@@ -9,6 +9,7 @@ from aiogram.types import ReplyKeyboardRemove, \
     InlineKeyboardMarkup, InlineKeyboardButton
 from datetime import datetime
 import emoji
+import pickle
 SMILES = ['✅', '❎']
 
 bot = Bot(token='1386333187:AAEdLI9emOBGG-bwC3wgoauiLsiPWC2hIGg')
@@ -30,7 +31,7 @@ button2 = KeyboardButton('Текущий портфель')
 button3 = KeyboardButton('Сайт')
 #button3 = KeyboardButton('Нашел баг')
 markup3 = ReplyKeyboardMarkup().add(
-    button1).add(button3)#.add(button2)
+    button1).add(button3).add(button2)
 @dp.message_handler(commands=['help'])
 async def add_user(message):
     await message.reply("Вот, что я умею", reply_markup=markup3)
@@ -42,9 +43,18 @@ async def get_text_messages(message):
 
         await bot.send_message(message.chat.id, "@atomtosov")
 
-    #elif message.text == "Текущий портфель":
+    elif message.text == "Текущий портфель":
 
-        #await bot.send_message(message.chat.id, "Портфель с учетом новых сделок и накопленная доходность позиций: ALRS (0%), GAZP (0%), RASP (+15%), LSRG (-2%), SBER (0%). Накопленная доходность портфеля с 01.01.2020 = +75% ")
+        with open("/home/danyanyam/flask/Библиотека/data/pickles/portfel.pickle", "rb") as fobj:
+            data = pickle.load(fobj)
+        stocks_list = ''
+        for elem in data['holdings'][1]['stocks']:
+            if elem['stock_name'] == None:
+                continue
+            stocks_list += elem['stock_name'] + ', '
+        stocks_list = stocks_list[:-2]
+        a, pr, yelda, amount, vol, mean_yelda, hold, perf = data.values()
+        await bot.send_message(message.chat.id, f"Текущий портфель: {stocks_list} \nХарактеристика портфеля: Совокупная доходность = {yelda}, количество сделок за месяц = {amount}, волатильность = {vol}, средняя доходность = {mean_yelda}")
 
     elif message.text == "Сайт":
 
@@ -54,12 +64,20 @@ async def get_text_messages(message):
 
 
 async def scheduled(wait_for):
+    #last_date = datetime.now().date()
+    done = True
     global users
     left_users = set()
+    last_date = datetime.now().date()
     while True:
         await asyncio.sleep(wait_for)
+        if datetime.now().date() != last_date:
+            done = False
+            last_date = datetime.now().date()
+        if done == True:
+            continue
         a = rassylka.soobschenye()
-        if a==False:
+        elif a == False:
             continue
         b = ''
         for el in a:
@@ -77,8 +95,9 @@ async def scheduled(wait_for):
         with open('users.txt', 'w') as f:
             for user in users:
                 f.write(str(user) + '\n')
-        if a != False:
-            await asyncio.sleep(60*60*24)
+        done = True
+
+
 
 
 if __name__ == '__main__':
