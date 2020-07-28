@@ -30,7 +30,7 @@ button2 = KeyboardButton('Текущий портфель')
 button3 = KeyboardButton('Сайт')
 #button3 = KeyboardButton('Нашел баг')
 markup3 = ReplyKeyboardMarkup().add(
-    button1).add(button2).add(button3)
+    button1).add(button3)#.add(button2)
 @dp.message_handler(commands=['help'])
 async def add_user(message):
     await message.reply("Вот, что я умею", reply_markup=markup3)
@@ -42,9 +42,9 @@ async def get_text_messages(message):
 
         await bot.send_message(message.chat.id, "@atomtosov")
 
-    elif message.text == "Текущий портфель":
+    #elif message.text == "Текущий портфель":
 
-        await bot.send_message(message.chat.id, "Портфель с учетом новых сделок и накопленная доходность позиций: ALRS (0%), GAZP (0%), RASP (+15%), LSRG (-2%), SBER (0%). Накопленная доходность портфеля с 01.01.2020 = +75% ")
+        #await bot.send_message(message.chat.id, "Портфель с учетом новых сделок и накопленная доходность позиций: ALRS (0%), GAZP (0%), RASP (+15%), LSRG (-2%), SBER (0%). Накопленная доходность портфеля с 01.01.2020 = +75% ")
 
     elif message.text == "Сайт":
 
@@ -77,5 +77,5 @@ async def scheduled(wait_for):
 
 
 if __name__ == '__main__':
-	dp.loop.create_task(scheduled(15)) # пока что оставим 10 секунд (в качестве теста)
+	dp.loop.create_task(scheduled(60*60*24)) # пока что оставим 10 секунд (в качестве теста)
 	executor.start_polling(dp, skip_updates=True)
