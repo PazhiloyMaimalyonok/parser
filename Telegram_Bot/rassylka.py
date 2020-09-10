@@ -39,10 +39,11 @@ def soobschenye(last_buy_date, last_sell_date):
 
        if list(sell)!= []:
               #print("Продажи", *sell)
+              zatychka = ''
               for el in sell:
                      zatychka += el + ', '
               zatychka = str(zatychka)[:-2]
-              result.append('{SMILES[1}Продажи' + zatychka + '\n')
+              result.append('{SMILES[1]}Продажи' + zatychka + '\n')
        else:
               #print('Ничего не продаем')
               result.append('Ничего не продаем' + '\n')
