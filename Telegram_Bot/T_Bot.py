@@ -47,14 +47,13 @@ async def get_text_messages(message):
 
         with open("/home/danyanyam/flask/Библиотека/data/pickles/portfel.pickle", "rb") as fobj:
             data = pickle.load(fobj)
-        stocks_list = ''
-        for elem in data['holdings'][1]['stocks']:
-            if elem['stock_name'] == None:
-                continue
-            stocks_list += elem['stock_name'] + ', '
-        stocks_list = stocks_list[:-2]
-        a, pr, yelda, amount, vol, mean_yelda, hold, perf = data.values()
-        await bot.send_message(message.chat.id, f"Текущий портфель: {stocks_list} \nХарактеристика портфеля: Совокупная доходность = {yelda}, количество сделок за месяц = {amount}, волатильность = {vol}, средняя доходность = {mean_yelda}")
+        last_update_of_portfolio, amount_of_deals_this_month, cumulated_yield, mean_yield, volatility, musor = \
+        data['current_conditions'][0].values()
+        stock_list = ''
+        for x in musor:
+            stock_list += x['ticker'] + ', '
+        stock_list = stock_list[:-2]
+        await bot.send_message(message.chat.id, f"Текущий портфель: {stock_list} \nХарактеристика портфеля: Совокупная доходность = {cumulated_yield* 100} %, количество сделок за месяц = {amount_of_deals_this_month}, волатильность = {volatility*100}%")
 
     elif message.text == "Сайт":
 

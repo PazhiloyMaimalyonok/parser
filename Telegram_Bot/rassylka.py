@@ -47,7 +47,7 @@ def soobschenye(last_buy_date, last_sell_date):
               #print('Ничего не продаем')
               result.append('Ничего не продаем' + '\n')
        #print(f'Характеристика портфеля: Совокупная доходность = {yelda}, количество сделок за месяц = {amount}, волатильность = {vol}, средняя доходность = {mean_yelda}')
-       result.append(f'Характеристика портфеля: Совокупная доходность = {cumulated_yield} %, количество сделок за месяц = {amount_of_deals_this_month}, волатильность = {volatility}')
+       result.append(f'Характеристика портфеля: Совокупная доходность = {cumulated_yield * 100} %, количество сделок за месяц = {amount_of_deals_this_month}, волатильность = {volatility* 100}%')
 
        return result, last_buy_date, last_sell_date
 #a = soobschenye()
