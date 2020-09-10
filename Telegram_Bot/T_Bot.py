@@ -64,11 +64,12 @@ async def get_text_messages(message):
 
 
 async def scheduled(wait_for):
-    #last_date = datetime.now().date()
-    done = True
+    done = False
     global users
     left_users = set()
     last_date = datetime.now().date()
+    last_sell_date = None
+    last_buy_date = None
     while True:
         await asyncio.sleep(wait_for)
         if datetime.now().date() != last_date:
@@ -79,8 +80,9 @@ async def scheduled(wait_for):
         a = rassylka.soobschenye()
         if a == False:
             continue
+        #b - это сообщение юзерам
         b = ''
-        for el in a:
+        for el in a[0]:
             b += el
         for user in users:
 
