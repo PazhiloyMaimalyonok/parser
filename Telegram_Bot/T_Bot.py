@@ -76,10 +76,12 @@ async def scheduled(wait_for):
             last_date = datetime.now().date()
         if done == True:
             continue
-        a = rassylka.soobschenye()
+        a = rassylka.soobschenye(last_buy_date, last_sell_date)
         if a == False:
             continue
         #b - это сообщение юзерам
+        last_buy_date = a[1]
+        last_sell_date = a[2]
         b = ''
         for el in a[0]:
             b += el
@@ -102,5 +104,5 @@ async def scheduled(wait_for):
 
 
 if __name__ == '__main__':
-	dp.loop.create_task(scheduled(60*30)) # пока что оставим 10 секунд (в качестве теста)
+	dp.loop.create_task(scheduled(60*5)) # пока что оставим 10 секунд (в качестве теста)
 	executor.start_polling(dp, skip_updates=True)
