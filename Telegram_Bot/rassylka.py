@@ -25,7 +25,7 @@ def soobschenye(last_buy_date, last_sell_date):
        buy = buy['orders']
        sell = sell['orders']
        last_update_of_portfolio, amount_of_deals_this_month, cumulated_yield, mean_yield, volatility, musor = data['current_conditions'][0].values()
-
+       buy = list(set(buy).difference(set(sell)))
        if buy != []:
               #print(f'Покупки на {date}:', *buy)
               zatychka = ''
